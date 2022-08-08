@@ -13,45 +13,9 @@
     </div>
     <div class="icons-container">
         <ul class="icons-list">
-            <li class="icons-item">
-                <img class="icons-item__img" src="./images/超市.png" alt="">
-                <p class="icons-item__text">超市便利</p>
-            </li>
-            <li class="icons-item">
-                <img class="icons-item__img" src="./images/菜市场.png" alt="">
-                <p class="icons-item__text">菜市场</p>
-            </li>
-            <li class="icons-item">
-                <img class="icons-item__img" src="./images/水果店.png" alt="">
-                <p class="icons-item__text">水果店</p>
-            </li>
-            <li class="icons-item">
-                <img class="icons-item__img" src="./images/鲜花.png" alt="">
-                <p class="icons-item__text">鲜花绿植</p>
-            </li>
-            <li class="icons-item">
-                <img class="icons-item__img" src="./images/医药健康.png" alt="">
-                <p class="icons-item__text">医药健康</p>
-            </li>
-            <li class="icons-item">
-                <img class="icons-item__img" src="./images/家居.png" alt="">
-                <p class="icons-item__text">家具时尚</p>
-            </li>
-            <li class="icons-item">
-                <img class="icons-item__img" src="./images/蛋糕.png" alt="">
-                <p class="icons-item__text">烘培蛋糕</p>
-            </li>
-            <li class="icons-item">
-                <img class="icons-item__img" src="./images/签到.png" alt="">
-                <p class="icons-item__text">签到</p>
-            </li>
-            <li class="icons-item">
-                <img class="icons-item__img" src="./images/大牌免运.png" alt="">
-                <p class="icons-item__text">大牌免运</p>
-            </li>
-            <li class="icons-item">
-                <img class="icons-item__img" src="./images/红包.png" alt="">
-                <p class="icons-item__text">红包套餐</p>
+            <li class="icons-item" v-for="(item,index) in StaticList" :key="index">
+                <img class="icons-item__img" :src="item.url" alt="">
+                <p class="icons-item__text">{{item.text}}</p>
             </li>
         </ul>
     </div>
@@ -59,10 +23,53 @@
 </template>
 <script>
 export default {
-  name: 'StaticPart'
+  name: 'StaticPart',
+  setup () {
+    const StaticList = [{
+      url: 'http://www.dell-lee.com/imgs/vue3/超市.png',
+      text: '超市便利'
+    },
+    {
+      url: 'http://www.dell-lee.com/imgs/vue3/菜市场.png',
+      text: '菜市场'
+    },
+    {
+      url: 'http://www.dell-lee.com/imgs/vue3/水果店.png',
+      text: '水果店'
+    },
+    {
+      url: 'http://www.dell-lee.com/imgs/vue3/鲜花.png',
+      text: '鲜花绿植'
+    },
+    {
+      url: 'http://www.dell-lee.com/imgs/vue3/医药健康.png',
+      text: '医药健康'
+    },
+    {
+      url: 'http://www.dell-lee.com/imgs/vue3/家居.png',
+      text: '家居时尚'
+    },
+    {
+      url: 'http://www.dell-lee.com/imgs/vue3/蛋糕.png',
+      text: '蛋糕烘培'
+    },
+    {
+      url: 'http://www.dell-lee.com/imgs/vue3/签到.png',
+      text: '签到'
+    },
+    {
+      url: 'http://www.dell-lee.com/imgs/vue3/大牌免运.png',
+      text: '大牌免运'
+    },
+    {
+      url: 'http://www.dell-lee.com/imgs/vue3/红包.png',
+      text: '红包套餐'
+    }]
+    return { StaticList }
+  }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 
 @import '../../style/variables.scss';
 @import '../../style/mixins.scss';
@@ -101,6 +108,7 @@ export default {
     border-radius: .16rem;
     border: none;
     background-color: #F5F5F5;
+    outline: none;
 }
 
 .banner {
@@ -130,6 +138,8 @@ export default {
         &__img {
             display: block;
             margin: 0 auto;
+            width: 0.4rem;
+            height: 0.4rem;
         }
 
         &__text {

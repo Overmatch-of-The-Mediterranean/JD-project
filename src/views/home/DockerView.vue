@@ -1,74 +1,60 @@
 <template>
     <div class="docker">
-        <div class="docker__item docker__item--active">
-            <i class="iconfont">&#xe8b9;</i>
-            <div class="docker__title ">首页</div>
+        <div class="docker__item" v-for="(item,index) in DockerList" :key="index"
+            :class="{'docker__item docker__item--active': index === 0}">
+            <i class="iconfont" v-html="item.icon"></i>
+            <div class="docker__title ">{{item.text}}</div>
         </div>
-        <div class="docker__item">
-            <i class="iconfont">&#xe600;</i>
-            <div class="docker__title">购物车</div>
-        </div>
-        <div class="docker__item">
-            <i class="iconfont">&#xe897;</i>
-            <div class="docker__title">订单</div>
-        </div>
-        <div class="docker__item">
-            <i class="iconfont">&#xe601;</i>
-            <div class="docker__title">我的</div>
-        </div>
+
     </div>
 </template>
 <script>
 export default {
-  name: 'DockerView'
+  name: 'DockerView',
+  setup () {
+    const DockerList = [
+      { icon: '&#xe8b9;', text: '首页' },
+      { icon: '&#xe600;', text: '购物车' },
+      { icon: '&#xe897;', text: '订单' },
+      { icon: '&#xe601;', text: '我的' }
+    ]
+    return { DockerList }
+  }
 }
 </script>
-<style lang="scss">
-@import '../../style/variables.scss';
-.nearby {
-    padding-bottom: .1rem;
+<style lang="scss" scoped>
 
-    &__title {
-        font-size: 18px;
-        color: $content-fontcolor;
-        margin: .16rem 0 .02rem 0;
-        font-weight: 400;
-    }
+@import '../../style/variables.scss';
+.docker {
+    display: flex;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0.49rem;
+    color: $content-fontcolor;
+    padding: 0 .18rem;
+    border-top: .01rem solid #f1f1f1;
 
     &__item {
-        display: flex;
-        padding-top: .12rem;
+        flex: 1;
+        text-align: center;
 
-        &__img {
-            width: .56rem;
-            height: .56rem;
+        .iconfont {
+            display: block;
+            font-size: .2rem;
+            margin: .07rem 0 .02rem 0;
         }
 
-        &__content {
-            width: 2.67rem;
-            padding: 0 0 .12rem .16rem;
-            border-bottom: 1px solid #F1F1F1;
-
-            &__title {
-                font-size: 16px;
-                color: $content-fontcolor;
-            }
-
-            &__tags {
-                padding: .08rem 0;
-            }
-
-            &__tag {
-                margin-right: .16rem;
-                font-size: 13px;
-                color: $content-fontcolor;
-            }
-
-            &__text {
-                font-size: 13px;
-                color: #E93B3B;
-            }
+        &--active {
+            color: #1fa4fc;
         }
+    }
+
+    &__title {
+        font-size: .23rem;
+        transform: scale(0.5, 0.5);
+        transform-origin: center top;
     }
 }
 </style>

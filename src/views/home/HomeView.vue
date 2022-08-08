@@ -16,10 +16,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
-@import '../../style/variables.scss';
-@import '../../style/mixins.scss';
+<style lang="scss" scoped>
 
 .wrapper {
     overflow-y: auto;

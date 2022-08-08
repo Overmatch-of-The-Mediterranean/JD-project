@@ -1,64 +1,15 @@
 <template>
     <div class="nearby">
         <h3 class="nearby__title">附近店铺</h3>
-        <div class="nearby__item">
-            <img class="nearby__item__img" src="http://www.dell-lee.com/imgs/vue3/near.png" alt="">
+        <div class="nearby__item" v-for="item in NearbyList" :key="item.id">
+            <img class="nearby__item__img" :src="item.url" alt="">
             <div class="nearby__item__content">
-                <div class="nearby__item__content__title">沃尔玛</div>
+                <div class="nearby__item__content__title">{{item.title}}</div>
                 <div class="nearby__item__content__tags">
-                    <span class="nearby__item__content__tag">月售1万+</span>
-                    <span class="nearby__item__content__tag">起送¥0</span>
-                    <span class="nearby__item__content__tag">基础运费¥5</span>
+                    <span class="nearby__item__content__tag" v-for="(itemTag,index) in item.tags"
+                        :key="index">{{itemTag}}</span>
                 </div>
-                <p class="nearby__item__content__text">VIP尊享满89元减4元运费券（每月3张）</p>
-            </div>
-        </div>
-        <div class="nearby__item">
-            <img class="nearby__item__img" src="http://www.dell-lee.com/imgs/vue3/near.png" alt="">
-            <div class="nearby__item__content">
-                <div class="nearby__item__content__title">沃尔玛</div>
-                <div class="nearby__item__content__tags">
-                    <span class="nearby__item__content__tag">月售1万+</span>
-                    <span class="nearby__item__content__tag">起送¥0</span>
-                    <span class="nearby__item__content__tag">基础运费¥5</span>
-                </div>
-                <p class="nearby__item__content__text">VIP尊享满89元减4元运费券（每月3张）</p>
-            </div>
-        </div>
-        <div class="nearby__item">
-            <img class="nearby__item__img" src="http://www.dell-lee.com/imgs/vue3/near.png" alt="">
-            <div class="nearby__item__content">
-                <div class="nearby__item__content__title">沃尔玛</div>
-                <div class="nearby__item__content__tags">
-                    <span class="nearby__item__content__tag">月售1万+</span>
-                    <span class="nearby__item__content__tag">起送¥0</span>
-                    <span class="nearby__item__content__tag">基础运费¥5</span>
-                </div>
-                <p class="nearby__item__content__text">VIP尊享满89元减4元运费券（每月3张）</p>
-            </div>
-        </div>
-        <div class="nearby__item">
-            <img class="nearby__item__img" src="http://www.dell-lee.com/imgs/vue3/near.png" alt="">
-            <div class="nearby__item__content">
-                <div class="nearby__item__content__title">沃尔玛</div>
-                <div class="nearby__item__content__tags">
-                    <span class="nearby__item__content__tag">月售1万+</span>
-                    <span class="nearby__item__content__tag">起送¥0</span>
-                    <span class="nearby__item__content__tag">基础运费¥5</span>
-                </div>
-                <p class="nearby__item__content__text">VIP尊享满89元减4元运费券（每月3张）</p>
-            </div>
-        </div>
-        <div class="nearby__item">
-            <img class="nearby__item__img" src="http://www.dell-lee.com/imgs/vue3/near.png" alt="">
-            <div class="nearby__item__content">
-                <div class="nearby__item__content__title">沃尔玛</div>
-                <div class="nearby__item__content__tags">
-                    <span class="nearby__item__content__tag">月售1万+</span>
-                    <span class="nearby__item__content__tag">起送¥0</span>
-                    <span class="nearby__item__content__tag">基础运费¥5</span>
-                </div>
-                <p class="nearby__item__content__text">VIP尊享满89元减4元运费券（每月3张）</p>
+                <p class="nearby__item__content__text">{{item.text}}</p>
             </div>
         </div>
     </div>
@@ -66,42 +17,97 @@
 
 <script>
 export default {
-  name: 'NearbyView'
+  name: 'NearbyView',
+  setup () {
+    const NearbyList = [
+      {
+        id: 1,
+        url: 'http://www.dell-lee.com/imgs/vue3/near.png',
+        title: '沃尔玛',
+        tags: ['月售1万+', '起送¥0', '基础运费¥5'],
+        text: 'VIP尊享满89元减4元运费券（每月3张）'
+      },
+      {
+        id: 2,
+        url: 'http://www.dell-lee.com/imgs/vue3/near.png',
+        title: '沃尔玛',
+        tags: ['月售2万+', '起送¥0', '基础运费¥5'],
+        text: 'VIP尊享满89元减4元运费券（每月3张）'
+      },
+      {
+        id: 3,
+        url: 'http://www.dell-lee.com/imgs/vue3/near.png',
+        title: '沃尔玛',
+        tags: ['月售3万+', '起送¥0', '基础运费¥5'],
+        text: 'VIP尊享满89元减4元运费券（每月3张）'
+      },
+      {
+        id: 4,
+        url: 'http://www.dell-lee.com/imgs/vue3/near.png',
+        title: '沃尔玛',
+        tags: ['月售4万+', '起送¥0', '基础运费¥5'],
+        text: 'VIP尊享满89元减4元运费券（每月3张）'
+      },
+      {
+        id: 5,
+        url: 'http://www.dell-lee.com/imgs/vue3/near.png',
+        title: '沃尔玛',
+        tags: ['月售5万+', '起送¥0', '基础运费¥5'],
+        text: 'VIP尊享满89元减4元运费券（每月3张）'
+      }
+    ]
+    return { NearbyList }
+  }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+
 @import '../../style/variables.scss';
-.docker {
-    display: flex;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 0.49rem;
-    color: $content-fontcolor;
-    padding: 0 .18rem;
-    border-top: .01rem solid #f1f1f1;
-
-    &__item {
-        flex: 1;
-        text-align: center;
-
-        .iconfont {
-            display: block;
-            font-size: .2rem;
-            margin: .07rem 0 .02rem 0;
-        }
-
-        &--active {
-            color: #1fa4fc;
-        }
-    }
+.nearby {
+    padding-bottom: .1rem;
 
     &__title {
-        font-size: .23rem;
-        transform: scale(0.5, 0.5);
-        transform-origin: center top;
+        font-size: 18px;
+        color: $content-fontcolor;
+        margin: .16rem 0 .02rem 0;
+        font-weight: 400;
+    }
+
+    &__item {
+        display: flex;
+        padding-top: .12rem;
+
+        &__img {
+            width: .56rem;
+            height: .56rem;
+        }
+
+        &__content {
+            width: 2.67rem;
+            padding: 0 0 .12rem .16rem;
+            border-bottom: 1px solid #F1F1F1;
+
+            &__title {
+                font-size: 16px;
+                color: $content-fontcolor;
+            }
+
+            &__tags {
+                padding: .08rem 0;
+            }
+
+            &__tag {
+                margin-right: .16rem;
+                font-size: 13px;
+                color: $content-fontcolor;
+            }
+
+            &__text {
+                font-size: 13px;
+                color: #E93B3B;
+            }
+        }
     }
 }
 </style>
