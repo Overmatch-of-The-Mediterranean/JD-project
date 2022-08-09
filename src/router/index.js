@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import LoginView from '../views/login/LoginView'
 import HomeView from '../views/home/HomeView'
+import RegisterView from '../views/register/RegisterView'
 const routes = [
   {
     path: '/',
@@ -8,9 +9,25 @@ const routes = [
     component: HomeView
   },
   {
+    path: '/register',
+    name: 'register',
+    component: RegisterView,
+    // 登陆后不让再跳到register页面
+    beforeEnter(to, from, next) {
+      const { isLogin } = localStorage
+      isLogin ? next({ name: 'home' }) : next()
+    }
+  },
+  {
     path: '/login',
-    name: 'LoginView',
-    component: LoginView
+    name: 'Login',
+    component: LoginView,
+    // 登陆后不让再跳到Login页面
+    beforeEnter(to, from, next) {
+      const { isLogin } = localStorage
+      isLogin ? next({ name: 'home' }) : next()
+    }
+
   }
   // {
   //   path: '/about',
@@ -27,4 +44,8 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  const { isLogin } = localStorage
+  isLogin || to.name === 'Login' || to.name === 'register' ? next() : next({ name: 'Login' })
+})
 export default router
