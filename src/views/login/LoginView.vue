@@ -1,29 +1,67 @@
 <template>
-    <div class="wrapper">
-        <img class="wrapper__img" src="http://www.dell-lee.com/imgs/vue3/user.png" alt="">
-        <div class="wrapper__input">
-            <input type="text" class="wrapper__input__content" placeholder="请输入手机号">
-        </div>
-        <div class="wrapper__input">
-            <input type="password" class="wrapper__input__content" placeholder="请输入密码">
-        </div>
-        <div class="wrapper__button" @click="handleIsLogin">登录</div>
-        <router-link :to="{name: 'register'}">
-            <div class="wrapper__register">立即注册</div>
-        </router-link>
+  <div class="wrapper">
+    <img class="wrapper__img" src="http://www.dell-lee.com/imgs/vue3/user.png" alt="">
+    <div class="wrapper__input">
+      <input type="text" class="wrapper__input__content" placeholder="请输入用户名" v-model="data.usertName">
     </div>
+    <div class="wrapper__input">
+      <input type="password" class="wrapper__input__content" placeholder="请输入密码" v-model="data.password">
+    </div>
+    <div class="wrapper__button" @click="handleIsLogin">登录</div>
+    <router-link :to="{name: 'register'}">
+      <div class="wrapper__register">立即注册</div>
+    </router-link>
+    <ToastView :message="data.toastMessage" v-if="data.showToast" />
+  </div>
 </template>
 <script>
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { post } from '../../untils/request'
+import ToastView from '../../components/ToastView.vue'
 export default {
   name: 'LoginView',
+  components: { ToastView },
   setup () {
-    const router = useRouter()
-    const handleIsLogin = () => {
-      localStorage.isLogin = true
-      router.push({ name: 'home' })
+    let lock = true
+    const show = (message) => {
+      if (!lock) return
+      lock = false
+      data.toastMessage = message
+      data.showToast = true
+      setTimeout(() => {
+        lock = true
+        data.showToast = false
+        data.toastMessage = ''
+      }, 2000)
     }
-    return { handleIsLogin }
+    const router = useRouter()
+    const data = reactive(
+      {
+        usertName: '',
+        password: '',
+        toastMessage: '',
+        showToast: false
+      }
+    )
+    const handleIsLogin = async () => {
+      try {
+        const result = await post('/api/user/login111', {
+          usertName: data.usertName,
+          password: data.password
+        })
+        console.log(result)
+        if (result.error === 0) {
+          localStorage.isLogin = true
+          router.push({ name: 'home' })
+        } else {
+          show('登录失败')
+        }
+      } catch (e) {
+        show('请求失败')
+      }
+    }
+    return { handleIsLogin, data, show }
   }
 
 }
