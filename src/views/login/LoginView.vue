@@ -2,66 +2,59 @@
   <div class="wrapper">
     <img class="wrapper__img" src="http://www.dell-lee.com/imgs/vue3/user.png" alt="">
     <div class="wrapper__input">
-      <input type="text" class="wrapper__input__content" placeholder="请输入用户名" v-model="data.usertName">
+      <input type="text" class="wrapper__input__content" placeholder="请输入用户名" v-model="userName">
     </div>
     <div class="wrapper__input">
-      <input type="password" class="wrapper__input__content" placeholder="请输入密码" v-model="data.password">
+      <input type="password" class="wrapper__input__content" placeholder="请输入密码" v-model="password">
     </div>
     <div class="wrapper__button" @click="handleIsLogin">登录</div>
     <router-link :to="{name: 'register'}">
       <div class="wrapper__register">立即注册</div>
     </router-link>
-    <ToastView :message="data.toastMessage" v-if="data.showToast" />
+    <ToastView :message="toastMessage" v-if="showToast" />
   </div>
 </template>
 <script>
-import { reactive } from 'vue'
+import { reactive, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import { post } from '../../untils/request'
-import ToastView from '../../components/ToastView.vue'
+import ToastView, { useToastEffect } from '../../components/ToastView.vue'
+
+// 实现登录的逻辑
+const useLoginEffect = (show) => {
+  const router = useRouter()
+  const data = reactive({ userName: '', password: '' })
+  const handleIsLogin = async () => {
+    try {
+      const result = await post('/api/user/login', {
+        userName: data.userName,
+        password: data.password
+      })
+      if (data.userName === '' || data.password === '') {
+        return show('请输入用户名和密码')
+      }
+      if (result.error === 0) {
+        localStorage.isLogin = true
+        router.push({ name: 'home' })
+      } else {
+        show('登录失败')
+      }
+    } catch (e) {
+      show('请求失败')
+    }
+  }
+  const { userName, password } = toRefs(data)
+  return { handleIsLogin, userName, password }
+}
+
 export default {
   name: 'LoginView',
   components: { ToastView },
   setup () {
-    let lock = true
-    const show = (message) => {
-      if (!lock) return
-      lock = false
-      data.toastMessage = message
-      data.showToast = true
-      setTimeout(() => {
-        lock = true
-        data.showToast = false
-        data.toastMessage = ''
-      }, 2000)
-    }
-    const router = useRouter()
-    const data = reactive(
-      {
-        usertName: '',
-        password: '',
-        toastMessage: '',
-        showToast: false
-      }
-    )
-    const handleIsLogin = async () => {
-      try {
-        const result = await post('/api/user/login111', {
-          usertName: data.usertName,
-          password: data.password
-        })
-        console.log(result)
-        if (result.error === 0) {
-          localStorage.isLogin = true
-          router.push({ name: 'home' })
-        } else {
-          show('登录失败')
-        }
-      } catch (e) {
-        show('请求失败')
-      }
-    }
-    return { handleIsLogin, data, show }
+    // setup职责是，告诉你代码执行的流程
+    const { show, toastMessage, showToast } = useToastEffect()
+    const { handleIsLogin, userName, password } = useLoginEffect(show)
+    return { handleIsLogin, show, toastMessage, showToast, userName, password }
   }
 
 }
