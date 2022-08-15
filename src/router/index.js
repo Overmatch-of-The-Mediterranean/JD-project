@@ -1,17 +1,21 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import LoginView from '../views/login/LoginView'
-import HomeView from '../views/home/HomeView'
-import RegisterView from '../views/register/RegisterView'
+
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: () => import(/* webpackChunkName: "home123" */ '../views/home/HomeView')
+  },
+  {
+    path: '/shop/:id',
+    name: 'shop',
+    component: () => import(/* webpackChunkName: "shop123" */ '../views/shop/ShopView')
+    // 登陆后不让再跳到register页面
   },
   {
     path: '/register',
     name: 'register',
-    component: RegisterView,
+    component: () => import(/* webpackChunkName: "register123" */ '../views/register/RegisterView'),
     // 登陆后不让再跳到register页面
     beforeEnter(to, from, next) {
       const { isLogin } = localStorage
@@ -21,7 +25,7 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: LoginView,
+    component: () => import(/* webpackChunkName: "Login123" */ '../views/login/LoginView'),
     // 登陆后不让再跳到Login页面
     beforeEnter(to, from, next) {
       const { isLogin } = localStorage

@@ -23,7 +23,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 @import '../../style/variables.scss';
 .docker {
     display: flex;
@@ -34,7 +33,7 @@ export default {
     height: 0.49rem;
     color: $content-fontcolor;
     padding: 0 .18rem;
-    border-top: .01rem solid #f1f1f1;
+    border-top: .01rem solid $search-color;
 
     &__item {
         flex: 1;

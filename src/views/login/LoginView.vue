@@ -100,7 +100,7 @@ export default {
         width: 2.95rem;
         height: 0.48rem;
         margin: .32rem auto .16rem auto;
-        background-color: #0091FF;
+        background-color: $content-bgC;
         border: none;
         color: #fff;
         text-align: center;

@@ -70,7 +70,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 @import '../../style/variables.scss';
 @import '../../style/mixins.scss';
 .position {
@@ -152,7 +151,7 @@ export default {
 
 .gap {
     height: .1rem;
-    background-color: #F1F1F1;
+    background-color: $search-color;
     margin: 0 -.18rem;
 }
 </style>
