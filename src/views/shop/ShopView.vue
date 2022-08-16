@@ -9,7 +9,8 @@
     </div>
     <ShopInfo :hiddenBorder="true" :item="item" v-if="item.imgUrl" />
   </div>
-  <ContentView/>
+  <ContentView />
+  <CarViewVue />
 </template>
 <script>
 import { reactive, toRefs } from 'vue'
@@ -17,6 +18,7 @@ import { useRouter, useRoute } from 'vue-router'
 import ShopInfo from '../../components/ShopInfo.vue'
 import { get } from '../../untils/request'
 import ContentView from './ContentView'
+import CarViewVue from './CarView.vue'
 
 // 获取商铺信息
 const useShopInfoEffect = () => {
@@ -42,7 +44,7 @@ const useBackEffect = () => {
 }
 export default {
   name: 'ShopView',
-  components: { ShopInfo, ContentView },
+  components: { ShopInfo, ContentView, CarViewVue },
   setup () {
     const { item, getItemData } = useShopInfoEffect()
     const handleBackClick = useBackEffect()

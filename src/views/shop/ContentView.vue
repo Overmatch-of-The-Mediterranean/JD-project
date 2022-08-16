@@ -17,9 +17,11 @@
             <span class="product__item__info__price__￥">&yen;</span>
             <span class="product__item__info__price__new">{{item.price}}</span>
             <span class="product__item__info__price__old">&yen;{{item.oldPrice}}</span>
-            <span class="product__item__info__price__reduce iconfont">&#xe729;</span>
-            <span class="product__item__info__price__count">88</span>
-            <span class="product__item__info__price__add iconfont">&#xe727;</span>
+            <div class="product__item__info__price__choice">
+              <span class="product__item__info__price__choice__reduce iconfont">&#xe729;</span>
+              <span class="product__item__info__price__choice__count">88</span>
+              <span class="product__item__info__price__choice__add iconfont">&#xe727;</span>
+            </div>
           </div>
         </div>
       </li>
@@ -71,7 +73,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 @import '../../style/variables.scss';
 @import '../../style/mixins.scss';
 .content {
@@ -136,37 +137,43 @@ export default {
           font-size: .12rem;
         }
         &__new{
-          font-size: .16rem;
+          font-size: .14rem;
           font-weight: 700;
         }
         &__old{
           margin-left: .06rem;
-          font-size: .1rem;
+          font-size: .2rem;
+          zoom: 0.5;
           color: #999999;
           text-decoration: line-through;
         }
-        &__reduce {
-          margin-left: .29rem;
-          padding: .01rem;
-          color: $content-fontcolor666;
-          font-size: .148rem;
-          font-weight: 700;
-          border: .015rem solid $content-fontcolor666;
-          border-radius: 50%;
-        }
-        &__count {
-          margin: 0 .1rem;
-          font-size: .14rem;
-          color: $content-fontcolor;
-          line-height: .16rem;
-        }
-        &__add {
-          border-radius: 50%;
-          font-size: .14rem;
-          font-weight: 700;
-          background-color: $content-bgC;
-          color: #fff;
-          padding: .03rem;
+        &__choice {
+          display: inline;
+          position: absolute;
+          right: .16rem;
+          &__reduce {
+              margin-left: .29rem;
+              padding: .01rem;
+              color: $content-fontcolor666;
+              font-size: .148rem;
+              font-weight: 700;
+              border: .015rem solid $content-fontcolor666;
+              border-radius: 50%;
+            }
+            &__count {
+              margin: 0 .1rem;
+              font-size: .14rem;
+              color: $content-fontcolor;
+              line-height: .16rem;
+            }
+            &__add {
+              border-radius: 50%;
+              font-size: .14rem;
+              font-weight: 700;
+              background-color: $content-bgC;
+              color: #fff;
+              padding: .03rem;
+            }
         }
       }
     }
