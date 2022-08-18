@@ -3,7 +3,7 @@
     <div class="category">
       <ul>
         <li :class="{ 'category__item': true, 'category__item--active': currentTab === item.tab }"
-          v-for="item in categories" :key="item.name" @click="()=>handleCategoryClick(item.tab)">
+          v-for="item in categories" :key="item.name" @click="() => handleTabClick(item.tab)">
           {{item.name}}</li>
       </ul>
     </div>
@@ -18,9 +18,13 @@
             <span class="product__item__info__price__new">{{item.price}}</span>
             <span class="product__item__info__price__old">&yen;{{item.oldPrice}}</span>
             <div class="product__item__info__price__choice">
-              <span class="product__item__info__price__choice__reduce iconfont">&#xe729;</span>
-              <span class="product__item__info__price__choice__count">88</span>
-              <span class="product__item__info__price__choice__add iconfont">&#xe727;</span>
+              <span class="product__item__info__price__choice__reduce iconfont"
+                @click="() => { changeCartItemInfo(shopId,item._id,item,-1)}">&#xe729;</span>
+              <span class="product__item__info__price__choice__count">
+                {{cartList?.[shopId]?.[item._id]?.count || 0}}
+              </span>
+              <span class="product__item__info__price__choice__add iconfont"
+                @click="() => { changeCartItemInfo(shopId,item._id,item,1)}">&#xe727;</span>
             </div>
           </div>
         </div>
@@ -29,46 +33,49 @@
   </div>
 </template>
 <script>
-import { reactive, toRefs } from 'vue'
+import { useRoute } from 'vue-router'
+import { reactive, ref, toRefs, watchEffect } from 'vue'
 import { get } from '../../untils/request'
+import { useCommonCartEffect } from './commonCartEffect'
 
-const useGetContentDataEffect = () => {
-  const categories = [
-    {
-      name: '全部商品',
-      tab: 'all'
-    },
-    {
-      name: '秒杀',
-      tab: 'seckill'
-    },
-    {
-      name: '新鲜水果',
-      tab: 'fruit'
-    }
-  ]
-  const data = reactive({ list: [], currentTab: categories[0].tab })
-  const getContentData = async (tab) => {
-    const result = await get('/api/shop/1/products', { tab })
-    if (result.error === 0 && result.data.length) {
-      data.list = result.data
-    }
-  }
+const categories = [
+  { name: '全部商品', tab: 'all' },
+  { name: '秒杀', tab: 'seckill' },
+  { name: '新鲜水果', tab: 'fruit' }
+]
 
-  // 每次点击更新数据
-  const handleCategoryClick = (tab) => {
-    getContentData(tab)
-    data.currentTab = tab
+// Tab切换相关逻辑
+const useTabEffect = () => {
+  const currentTab = ref(categories[0].tab)
+  const handleTabClick = (tab) => {
+    currentTab.value = tab
   }
-  getContentData('all')
-  const { list, currentTab } = toRefs(data)
-  return { handleCategoryClick, list, currentTab, categories }
+  return { currentTab, handleTabClick }
 }
+
+// 列表内容相关逻辑
+const useCurrentListEffect = (currentTab, shopId) => {
+  const content = reactive({ list: [] })
+  const getContentData = async () => {
+    const result = await get(`/api/shop/${shopId}/products`, { tab: currentTab.value })
+    if (result.error === 0 && result.data.length) {
+      content.list = result.data
+    }
+  }
+  watchEffect(() => { getContentData() })
+  const { list } = toRefs(content)
+  return { list }
+}
+
 export default {
   name: 'contentView',
   setup () {
-    const { handleCategoryClick, list, currentTab, categories } = useGetContentDataEffect()
-    return { list, categories, currentTab, handleCategoryClick }
+    const route = useRoute()
+    const shopId = route.params.id
+    const { currentTab, handleTabClick } = useTabEffect()
+    const { list } = useCurrentListEffect(currentTab, shopId)
+    const { changeCartItemInfo, cartList } = useCommonCartEffect()
+    return { list, categories, currentTab, handleTabClick, shopId, changeCartItemInfo, cartList }
   }
 }
 </script>

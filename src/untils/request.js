@@ -3,9 +3,9 @@ const instance = axios.create({
   baseURL: 'https://www.fastmock.site/mock/e85283acd24926300e4c1ced32faffa5/weixin',
   timeout: 10000
 })
-export const get = (url, param = {}) => {
+export const get = (url, params = {}) => {
   return new Promise((resolve, reject) => {
-    instance.get(url, { param })
+    instance.get(url, { params })
       .then(response => {
         resolve(response.data)
       }, err => {
