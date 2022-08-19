@@ -23,6 +23,16 @@ const routes = [
     }
   },
   {
+    path: '/orderCreation',
+    name: 'orderCreation',
+    component: () => import(/* webpackChunkName: "register123" */ '../views/register/RegisterView'),
+    // 登陆后不让再跳到register页面
+    beforeEnter(to, from, next) {
+      const { isLogin } = localStorage
+      isLogin ? next({ name: 'home' }) : next()
+    }
+  },
+  {
     path: '/login',
     name: 'Login',
     component: () => import(/* webpackChunkName: "Login123" */ '../views/login/LoginView'),

@@ -1,12 +1,14 @@
 <template>
-  <div class="mask" v-if="showCart" />
+  <div class="mask" v-if="showCart" @click="handleCartShowChange" />
   <div class="cart">
     <ul class="product" v-if="showCart">
       <div class="product__header">
         <div class="product__header__icon iconfont" v-html="allChecked ? '&#xe618;':'&#xe66c;'"
           @click="setCartItemsChecked(shopId)"></div>
         <div class="product__header__all" @click="setCartItemsChecked(shopId)">全选</div>
-        <div class="product__header__clear" @click="clearCartProducts(shopId)">清空购物车</div>
+        <div class="product__header__clear">
+          <span class="product__header__clear__cart" @click="clearCartProducts(shopId)">清空购物车</span>
+        </div>
       </div>
       <template v-for="item in displayCartList" :key="item._id">
         <li class="product__item" v-if="item.count > 0">
@@ -41,7 +43,11 @@
       <div class="check__total">
         总计：<span class="check__total__price">&yen; {{price}}</span>
       </div>
-      <div class="check__settlement">去结算</div>
+      <div class="check__settlement">
+        <router-link :to="{name:'orderCreation'}">
+          去结算
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -115,19 +121,24 @@ const useCartEffect = () => {
   }
   return { total, price, displayCartList, shopId, changeCartItemInfo, changeCartItemCheck, clearCartProducts, allChecked, setCartItemsChecked }
 }
+const toggleCartEffect = () => {
+  const showCart = ref(false)
+  const handleCartShowChange = () => {
+    showCart.value = !showCart.value
+  }
+  return { showCart, handleCartShowChange }
+}
 export default {
   name: 'CarView',
   setup () {
-    const showCart = ref(false)
-    const handleCartShowChange = () => {
-      showCart.value = !showCart.value
-    }
+    const { showCart, handleCartShowChange } = toggleCartEffect()
     const { total, price, displayCartList, shopId, changeCartItemInfo, changeCartItemCheck, clearCartProducts, allChecked, setCartItemsChecked } = useCartEffect()
     return { total, price, displayCartList, changeCartItemInfo, shopId, changeCartItemCheck, clearCartProducts, allChecked, setCartItemsChecked, handleCartShowChange, showCart }
   }
 }
 </script>
 <style lang="scss" scoped>
+
 @import '../../style/variables.scss';
 @import '../../style/mixins.scss';
 .mask {
@@ -163,12 +174,17 @@ export default {
       margin-left: .12rem;
     }
     &__clear {
+      display: inline-block;
       flex: 1;
       text-align: right;
       padding-right: .18rem;
+      &__cart {
+        display: inline-block;
+      }
     }
   }
   &__item {
+    position: relative;
     display: flex;
     width: 100%;
     padding: .06rem 0;
@@ -237,7 +253,9 @@ export default {
         &__choice {
           display: inline;
           position: absolute;
-          right: .16rem;
+          right: .34rem;
+          top: 50%;
+          transform: translateY(-50%);
 
           &__reduce {
             margin-left: .29rem;
@@ -320,6 +338,10 @@ export default {
     color: #FFFFFF;
     background-color: #4FB0F9;;
     text-align: center;
+    a{
+      text-decoration: none;
+      color: #fff;
+    }
   }
 }
 </style>

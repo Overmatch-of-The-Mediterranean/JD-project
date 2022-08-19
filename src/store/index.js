@@ -18,7 +18,7 @@ export default createStore({
     // 如果购物车中原来没有这个商品，就相当于，重新构建cartList的数据结构，往里填充数据，最后再赋值给cartList
     changeCartItemInfo(state, payload) {
       const { shopId, productId, productInfo, num } = payload
-      let shopInfo = state.cartList[shopId]
+      let shopInfo = state.cartList[shopId] || {}
       if (!shopInfo) { shopInfo = {} }
       let product = shopInfo[productId]
       if (!product) {
