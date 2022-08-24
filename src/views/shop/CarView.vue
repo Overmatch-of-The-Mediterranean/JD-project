@@ -1,9 +1,9 @@
 <template>
-  <div class="mask" v-if="showCart" @click="handleCartShowChange" />
+  <div class="mask" v-if="showCart && Caculations.total > 0" @click="handleCartShowChange" />
   <div class="cart">
-    <ul class="product" v-if="showCart">
+    <ul class="product" v-if="showCart && Caculations.total > 0">
       <div class="product__header">
-        <div class="product__header__icon iconfont" v-html="allChecked ? '&#xe618;':'&#xe66c;'"
+        <div class="product__header__icon iconfont" v-html="Caculations.allChecked ? '&#xe618;':'&#xe66c;'"
           @click="setCartItemsChecked(shopId)"></div>
         <div class="product__header__all" @click="setCartItemsChecked(shopId)">全选</div>
         <div class="product__header__clear">
@@ -38,13 +38,13 @@
     <div class="check">
       <div class="check__icon iconfont" @click="handleCartShowChange">
         &#xe600;
-        <div class="check__icon__tag">{{ total }}</div>
+        <div class="check__icon__tag">{{ Caculations.total }}</div>
       </div>
       <div class="check__total">
-        总计：<span class="check__total__price">&yen; {{price}}</span>
+        总计：<span class="check__total__price">&yen; {{ Caculations.price}}</span>
       </div>
       <div class="check__settlement">
-        <router-link :to="{name:'orderCreation'}">
+        <router-link :to="{ path: `/orderConfirmation/${shopId}`}">
           去结算
         </router-link>
       </div>
@@ -55,61 +55,35 @@
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import { useCommonCartEffect } from './commonCartEffect'
+import { useCommonCartEffect } from '../../effects/cartEffects'
 
 // 改变商品数量时，使购物车的数字也发生变化
 const useCartEffect = () => {
   const store = useStore()
   const route = useRoute()
-  const { changeCartItemInfo } = useCommonCartEffect()
   const cartList = store.state.cartList
   const shopId = route.params.id
-  const total = computed(() => {
-    const productList = cartList[shopId]
-    let count = 0
+  const { changeCartItemInfo, displayCartList } = useCommonCartEffect(shopId)
+  const Caculations = computed(() => {
+    const result = { total: 0, price: 0, allChecked: true }
+    const productList = cartList[shopId]?.productList
     if (productList) {
       let i
       for (i in productList) {
         const product = productList[i]
-        count += product.count
-      }
-    }
-    return count
-  })
-  const price = computed(() => {
-    const productList = cartList[shopId]
-    let count = 0
-    if (productList) {
-      let i
-      for (i in productList) {
-        const product = productList[i]
+        result.total += product.count
         if (product.check) {
-          count += product.count * product.price
+          result.price += product.count * product.price
         }
-      }
-    }
-    return count.toFixed(2)
-  })
-  const allChecked = computed(() => {
-    const productList = cartList[shopId]
-    let result = true
-    if (productList) {
-      let i
-      for (i in productList) {
-        const product = productList[i]
         if (product.count > 0 && !product.check) {
-          result = false
+          result.allChecked = false
         }
       }
     }
+    result.price = result.price.toFixed(2)
     return result
   })
 
-  // 展示购物车的内容，需要先获得购物车中的内容
-  const displayCartList = computed(() => {
-    const productList = cartList[shopId]
-    return productList
-  })
   const changeCartItemCheck = (shopId, productId) => {
     store.commit('changeCartItemCheck', { shopId, productId })
   }
@@ -119,7 +93,7 @@ const useCartEffect = () => {
   const setCartItemsChecked = (shopId) => {
     store.commit('setCartItemsChecked', { shopId })
   }
-  return { total, price, displayCartList, shopId, changeCartItemInfo, changeCartItemCheck, clearCartProducts, allChecked, setCartItemsChecked }
+  return { Caculations, displayCartList, shopId, changeCartItemInfo, changeCartItemCheck, clearCartProducts, setCartItemsChecked }
 }
 const toggleCartEffect = () => {
   const showCart = ref(false)
@@ -132,8 +106,8 @@ export default {
   name: 'CarView',
   setup () {
     const { showCart, handleCartShowChange } = toggleCartEffect()
-    const { total, price, displayCartList, shopId, changeCartItemInfo, changeCartItemCheck, clearCartProducts, allChecked, setCartItemsChecked } = useCartEffect()
-    return { total, price, displayCartList, changeCartItemInfo, shopId, changeCartItemCheck, clearCartProducts, allChecked, setCartItemsChecked, handleCartShowChange, showCart }
+    const { displayCartList, shopId, changeCartItemInfo, changeCartItemCheck, clearCartProducts, setCartItemsChecked, Caculations } = useCartEffect()
+    return { Caculations, displayCartList, changeCartItemInfo, shopId, changeCartItemCheck, clearCartProducts, setCartItemsChecked, handleCartShowChange, showCart }
   }
 }
 </script>

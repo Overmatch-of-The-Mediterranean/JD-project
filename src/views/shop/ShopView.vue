@@ -9,7 +9,7 @@
     </div>
     <ShopInfo :hiddenBorder="true" :item="item" v-if="item.imgUrl" />
   </div>
-  <ContentView />
+  <ContentView :shopName="item.name"/>
   <CarViewVue />
 </template>
 <script>

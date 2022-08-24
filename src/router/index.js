@@ -7,6 +7,17 @@ const routes = [
     component: () => import(/* webpackChunkName: "home123" */ '../views/home/HomeView')
   },
   {
+    path: '/cartList',
+    name: 'cartList',
+    component: () => import(/* webpackChunkName: "cartList" */ '../views/cartList/CartList')
+  },
+  {
+    // 跳转到订单页面要携带id
+    path: '/orderConfirmation/:id',
+    name: 'orderConfirmation',
+    component: () => import(/* webpackChunkName: "orderconfirmation" */ '../views/orderConfirmation/OrderConfirmation')
+  },
+  {
     path: '/shop/:id',
     name: 'shop',
     component: () => import(/* webpackChunkName: "shop123" */ '../views/shop/ShopView')
