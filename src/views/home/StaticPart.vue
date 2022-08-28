@@ -91,7 +91,6 @@ export default {
     width: 3.39rem;
     height: 0.32rem;
     margin-bottom: .12rem;
-
     &__icon {
         position: absolute;
         left: .16rem;

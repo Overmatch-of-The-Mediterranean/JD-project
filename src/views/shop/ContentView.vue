@@ -60,7 +60,7 @@ const useCurrentListEffect = (currentTab, shopId) => {
   const content = reactive({ list: [] })
   const getContentData = async () => {
     const result = await get(`/api/shop/${shopId}/products`, { tab: currentTab.value })
-    if (result.error === 0 && result.data.length) {
+    if (result?.error === 0 && result?.data?.length) {
       content.list = result.data
     }
   }
@@ -76,8 +76,8 @@ const useCartEffect = () => {
   }
 
   const changeCartItem = (shopId, productId, item, num, shopName) => {
-    changeShopName(shopId, shopName)
     changeCartItemInfo(shopId, productId, item, num)
+    changeShopName(shopId, shopName)
   }
 
   const getProductCartCount = (shopId, productId) => {
@@ -100,6 +100,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
 @import '../../style/variables.scss';
 @import '../../style/mixins.scss';
 .content {
@@ -181,8 +182,10 @@ export default {
           &__reduce {
               margin-left: .29rem;
               padding: .01rem;
+              padding-right: .015rem;
+              padding-top: .014rem;
               color: $content-fontcolor666;
-              font-size: .148rem;
+              font-size: .145rem;
               font-weight: 700;
               border: .015rem solid $content-fontcolor666;
               border-radius: 50%;

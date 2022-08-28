@@ -15,7 +15,7 @@ const useNearbyList = () => {
   const NearbyList = ref([])
   const getNearbyList = async () => {
     const result = await get('/api/shop/hot-list')
-    if (result.error === 0 && result.data.length) {
+    if (result?.error === 0 && result?.data?.length) {
       NearbyList.value = result.data
     }
   }
@@ -39,7 +39,7 @@ export default {
     padding-bottom: .1rem;
 
     &__title {
-        font-size: 18px;
+        font-size: .18rem;
         color: $content-fontcolor;
         margin: .16rem 0 .02rem 0;
         font-weight: 400;

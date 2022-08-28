@@ -33,7 +33,7 @@ const useLoginEffect = (show) => {
       if (data.userName === '' || data.password === '') {
         return show('请输入用户名和密码')
       }
-      if (result.error === 0) {
+      if (result?.error === 0) {
         localStorage.isLogin = true
         router.push({ name: 'home' })
       } else {
@@ -78,8 +78,8 @@ export default {
         height: 0.48rem;
         margin: 0 auto .16rem auto;
         background: #F9F9F9;
-        border: 1px solid rgba(0, 0, 0, 0.10);
-        border-radius: 6px;
+        border: .01rem solid rgba(0, 0, 0, 0.10);
+        border-radius: .06rem;
         &__content {
             width: 100%;
             height: 100%;
@@ -104,12 +104,12 @@ export default {
         color: #fff;
         text-align: center;
         line-height: .48rem;
-        box-shadow: 0 4px 8px 0 rgba(0, 145, 255, 0.32);
-        border-radius: 4px;
+        box-shadow: 0 .04rem .08rem 0 rgba(0, 145, 255, 0.32);
+        border-radius: .04rem;
     }
     &__register{
         text-align: center;
-        font-size: 14px;
+        font-size: .14rem;
         color: $content-login-inputcolor;
         }
 }

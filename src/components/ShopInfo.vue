@@ -34,11 +34,11 @@ export default {
     width: 2.67rem;
     padding: 0 0 .12rem .16rem;
     &--bordered {
-      border-bottom: 1px solid $search-color;
+      border-bottom: .01rem solid $search-color;
     }
 
     &__title {
-      font-size: 16px;
+      font-size: .16rem;
       color: $content-fontcolor;
     }
 
@@ -48,12 +48,12 @@ export default {
 
     &__tag {
       margin-right: .16rem;
-      font-size: 13px;
+      font-size: .13rem;
       color: $content-fontcolor;
     }
 
     &__text {
-      font-size: 13px;
+      font-size: .13rem;
       color: $search-fontcolor;
     }
   }

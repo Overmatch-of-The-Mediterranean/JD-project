@@ -26,7 +26,7 @@ const useShopInfoEffect = () => {
   const data = reactive({ item: {} })
   const getItemData = async () => {
     const result = await get(`api/shop/${route.params.id}`)
-    if (result.error === 0 && result.data) {
+    if (result?.error === 0 && result?.data) {
       data.item = result.data
     }
   }

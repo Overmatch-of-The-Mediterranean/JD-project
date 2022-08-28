@@ -10,30 +10,28 @@
           <span class="product__header__clear__cart" @click="clearCartProducts(shopId)">清空购物车</span>
         </div>
       </div>
-      <template v-for="item in displayCartList" :key="item._id">
-        <li class="product__item" v-if="item.count > 0">
-          <div class="product__item__checked iconfont" v-html="item.check ? '&#xe618;':'&#xe66c;'"
-            @click="changeCartItemCheck(shopId,item._id)"></div>
-          <img class=" product__item__img" :src="item.imgUrl" alt="">
-          <div class="product__item__info">
-            <div class="product__item__info__title">{{item.name}}</div>
-            <div class="product__item__info__price">
-              <span class="product__item__info__price__￥">&yen;</span>
-              <span class="product__item__info__price__new">{{item.price}}</span>
-              <span class="product__item__info__price__old">&yen;{{item.oldPrice}}</span>
-              <div class="product__item__info__price__choice">
-                <span class="product__item__info__price__choice__reduce iconfont"
-                  @click="() => { changeCartItemInfo(shopId,item._id,item,-1)}">&#xe729;</span>
-                <span class="product__item__info__price__choice__count">
-                  {{item.count || 0}}
-                </span>
-                <span class="product__item__info__price__choice__add iconfont"
-                  @click="() => { changeCartItemInfo(shopId,item._id,item,1)}">&#xe727;</span>
-              </div>
+      <li class="product__item" v-for="item in displayCartList" :key="item._id">
+        <div class="product__item__checked iconfont" v-html="item.check ? '&#xe618;':'&#xe66c;'"
+          @click="changeCartItemCheck(shopId,item._id)"></div>
+        <img class=" product__item__img" :src="item.imgUrl" alt="">
+        <div class="product__item__info">
+          <div class="product__item__info__title">{{item.name}}</div>
+          <div class="product__item__info__price">
+            <span class="product__item__info__price__￥">&yen;</span>
+            <span class="product__item__info__price__new">{{item.price}}</span>
+            <span class="product__item__info__price__old">&yen;{{item.oldPrice}}</span>
+            <div class="product__item__info__price__choice">
+              <span class="product__item__info__price__choice__reduce iconfont"
+                @click="() => { changeCartItemInfo(shopId,item._id,item,-1)}">&#xe729;</span>
+              <span class="product__item__info__price__choice__count">
+                {{item.count || 0}}
+              </span>
+              <span class="product__item__info__price__choice__add iconfont"
+                @click="() => { changeCartItemInfo(shopId,item._id,item,1)}">&#xe727;</span>
             </div>
           </div>
-        </li>
-      </template>
+        </div>
+      </li>
     </ul>
     <div class="check">
       <div class="check__icon iconfont" @click="handleCartShowChange">
@@ -43,7 +41,7 @@
       <div class="check__total">
         总计：<span class="check__total__price">&yen; {{ Caculations.price}}</span>
       </div>
-      <div class="check__settlement">
+      <div class="check__settlement" v-if="Caculations.total > 0">
         <router-link :to="{ path: `/orderConfirmation/${shopId}`}">
           去结算
         </router-link>
@@ -52,7 +50,7 @@
   </div>
 </template>
 <script>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { useCommonCartEffect } from '../../effects/cartEffects'
@@ -61,29 +59,8 @@ import { useCommonCartEffect } from '../../effects/cartEffects'
 const useCartEffect = () => {
   const store = useStore()
   const route = useRoute()
-  const cartList = store.state.cartList
   const shopId = route.params.id
-  const { changeCartItemInfo, displayCartList } = useCommonCartEffect(shopId)
-  const Caculations = computed(() => {
-    const result = { total: 0, price: 0, allChecked: true }
-    const productList = cartList[shopId]?.productList
-    if (productList) {
-      let i
-      for (i in productList) {
-        const product = productList[i]
-        result.total += product.count
-        if (product.check) {
-          result.price += product.count * product.price
-        }
-        if (product.count > 0 && !product.check) {
-          result.allChecked = false
-        }
-      }
-    }
-    result.price = result.price.toFixed(2)
-    return result
-  })
-
+  const { changeCartItemInfo, displayCartList, Caculations } = useCommonCartEffect(shopId)
   const changeCartItemCheck = (shopId, productId) => {
     store.commit('changeCartItemCheck', { shopId, productId })
   }
@@ -112,7 +89,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 @import '../../style/variables.scss';
 @import '../../style/mixins.scss';
 .mask {
@@ -135,9 +111,9 @@ export default {
   &__header {
     display: flex;
     height: 0.52rem;
-    border-bottom: 1px solid #F1F1F1;;
+    border-bottom: .01rem solid #F1F1F1;;
     line-height: .52rem;
-    font-size: 15px;
+    font-size: .15rem;
     color: #333333;
     &__icon {
       color: #0091FF;
@@ -234,8 +210,10 @@ export default {
           &__reduce {
             margin-left: .29rem;
             padding: .01rem;
+            padding-right: .015rem;
+            padding-top: .014rem;
             color: $content-fontcolor666;
-            font-size: .148rem;
+            font-size: .145rem;
             font-weight: 700;
             border: .015rem solid $content-fontcolor666;
             border-radius: 50%;
@@ -267,7 +245,7 @@ export default {
   bottom: 0;
   width: 100%;
   height: 0.49rem;
-  box-shadow: 0 -1px 1px 0 #F1F1F1;
+  box-shadow: 0 -.01rem .01rem 0 #F1F1F1;
   line-height: .49rem;
   z-index: 2;
   background-color: #fff;
@@ -285,7 +263,7 @@ export default {
       height: 0.12rem;
       padding: 0 .04rem;
       background-color: #E93B3B;
-      font-size: 8px;
+      font-size: .08rem;
       color: #FFFFFF;
       line-height: .12rem;
       border-radius: .06rem;
@@ -297,7 +275,7 @@ export default {
     font-size: .15rem;
     padding-left: .1rem;
     &__price {
-      font-size: 18px;
+      font-size: .18rem;
       color: #E93B3B;
       font-weight: 700;
     }
@@ -308,7 +286,7 @@ export default {
     right: 0;
     height: .49rem;
     width: 0.98rem;
-    font-size: 14px;
+    font-size: .14rem;
     color: #FFFFFF;
     background-color: #4FB0F9;;
     text-align: center;

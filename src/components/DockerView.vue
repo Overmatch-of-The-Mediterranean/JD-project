@@ -1,7 +1,7 @@
 <template>
   <div class="docker">
     <div class="docker__item" v-for="(item,index) in DockerList" :key="index"
-      :class="{'docker__item docker__item--active': index === 0}">
+      :class="{ 'docker__item docker__item--active': index === currentIndex }">
       <router-link :to="item.to">
         <i class="iconfont" v-html="item.icon"></i>
         <div class="docker__title ">{{item.text}}</div>
@@ -12,11 +12,12 @@
 <script>
 export default {
   name: 'DockerView',
+  props: ['currentIndex'],
   setup () {
     const DockerList = [
       { icon: '&#xe8b9;', text: '首页', to: { name: 'home' } },
       { icon: '&#xe600;', text: '购物车', to: { name: 'cartList' } },
-      { icon: '&#xe897;', text: '订单', to: { name: 'home' } },
+      { icon: '&#xe897;', text: '订单', to: { name: 'orderList' } },
       { icon: '&#xe601;', text: '我的', to: { name: 'home' } }
     ]
     return { DockerList }
@@ -24,7 +25,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../style/variables.scss';
+@import '../style/variables.scss';
 .docker {
     display: flex;
     position: absolute;

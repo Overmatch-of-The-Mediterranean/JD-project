@@ -7,7 +7,11 @@ const setLocalCartStorage = (state) => {
 }
 
 const getLocalCartStorage = () => {
-  return JSON.parse(localStorage.cartList) || {}
+  try {
+    return JSON.parse(localStorage.cartList) || {}
+  } catch (e) {
+    return {}
+  }
 }
 
 export default createStore({
@@ -33,8 +37,7 @@ export default createStore({
     // 如果购物车中原来没有这个商品，就相当于，重新构建cartList的数据结构，往里填充数据，最后再赋值给cartList
     changeCartItemInfo(state, payload) {
       const { shopId, productId, productInfo, num } = payload
-      let shopInfo = state.cartList[shopId] || { shopName: '', productList: {} }
-      if (!shopInfo) { shopInfo = {} }
+      const shopInfo = state.cartList[shopId] || { shopName: '', productList: {} }
       let product = shopInfo.productList[productId]
       if (!product) {
         product = productInfo
@@ -79,6 +82,9 @@ export default createStore({
         }
       }
       setLocalCartStorage(state)
+    },
+    clearCartList(state, shopId) {
+      state.cartList[shopId].productList = {}
     }
   },
   actions: {

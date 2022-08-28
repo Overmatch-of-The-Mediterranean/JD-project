@@ -10,12 +10,38 @@ export const useCommonCartEffect = (shopId) => {
   }
   // 展示购物车的内容，需要先获得购物车中的内容
   const displayCartList = computed(() => {
-    const productList = cartList[shopId]?.productList || []
-    return productList
+    const productList = cartList[shopId]?.productList || {}
+    const noEmptyProductList = {}
+    for (const i in productList) {
+      const product = productList[i]
+      if (product.count > 0) {
+        noEmptyProductList[i] = product
+      }
+    }
+    return noEmptyProductList
   })
   const shopName = computed(() => {
     const shopName = cartList[shopId]?.shopName || ''
     return shopName
   })
-  return { changeCartItemInfo, cartList, displayCartList, shopName }
+  const Caculations = computed(() => {
+    const productList = cartList[shopId]?.productList
+    const result = { singlePirce: 0, total: 0, price: 0, allChecked: true }
+    if (productList) {
+      let i
+      for (i in productList) {
+        const product = productList[i]
+        result.total += product.count
+        if (product.check) {
+          result.price += product.count * product.price
+        }
+        if (product.count > 0 && !product.check) {
+          result.allChecked = false
+        }
+      }
+    }
+    result.price = result.price.toFixed(2)
+    return result
+  })
+  return { changeCartItemInfo, cartList, displayCartList, shopName, Caculations }
 }
