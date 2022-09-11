@@ -52,6 +52,33 @@
 
 
 
+## 获取用户信息
+
+### url
+
+`/api/user/info`
+
+### method
+
+`get`
+
+### request body
+
+无
+
+### response body
+```js
+{
+  errno:0,
+  data: {
+    username:'xxx',
+    message:'errno！==0，返回错误信息'
+  }
+}
+```
+
+
+
 
 ## 创建收货地址
 
