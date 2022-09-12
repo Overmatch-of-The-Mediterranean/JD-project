@@ -50,4 +50,37 @@
 }
 ```
 
-## 订单 （待定）
+## 订单 
+```js
+{
+  _id:'xxx',
+  shopId: '店铺id',
+  shopName:'沃尔玛',
+  isCancel: false,    // 是否取消订单
+  addressId: {   // 复制关系
+    "username": "zhangsanA",
+    "city": "上海",
+    "department": "汤臣一品",
+    "name": "张三A",
+    "houseNumber": "兰一A栋",
+    "phone": "8888888888",
+  },
+  products:[
+  {
+    product: {  // 复制关系
+      "shopId": "631d9b697b9a3de66b38f357",
+      "imgUrl": "/images/product/grape.jpg",
+      "name": "葡萄",
+      "sales": 100,
+      "price": 33,
+      "oldPrice": 36,
+      "tabs": ["all","seckill","fruit"]
+    },
+    count:5
+  },
+  {
+   
+  }
+  ]
+}
+```
