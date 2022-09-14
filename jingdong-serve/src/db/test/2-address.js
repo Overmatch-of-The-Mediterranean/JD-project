@@ -5,14 +5,14 @@
 const Address = require('../../models/Address')
 !(async () => {
   // 创建地址
-  // await Address.create({
-  //   username: 'zhangsan',
-  //   city: '深圳',
-  //   department: 'xxx小区',
-  //   name: '张三',
-  //   houseNumber: '兰一',
-  //   phone: '1886666666'
-  // });
+  await Address.create({
+    username: 'zhangsan',
+    city: '深圳',
+    department: 'xxx小区',
+    name: '张三',
+    houseNumber: '兰一',
+    phone: '1886666666'
+  });
 
   // await Address.create({
   //   username: 'zhangsan',

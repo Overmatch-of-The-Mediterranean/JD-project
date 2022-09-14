@@ -320,11 +320,11 @@ errno: 0,
 ### request body
 ```js
 {
-  addressId: '收获地址id',
+  addressId: '收获地址id', // 复制关系
   shopId: '店铺id',
   shopName:'沃尔玛',
   isCancel: false,    // 是否取消订单
-  products:[{
+  products:[{   //复制关系
     _id: '商品id',
     count:5
   },
