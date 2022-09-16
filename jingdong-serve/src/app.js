@@ -9,6 +9,8 @@ const session = require('koa-generic-session')
 const cors = require('koa2-cors')
 const index = require('./routes/index')
 const users = require('./routes/users')
+const address = require('./routes/address')
+const shop = require('./routes/shop')
 
 
 
@@ -53,6 +55,8 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(address.routes(), address.allowedMethods())
+app.use(shop.routes(), shop.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

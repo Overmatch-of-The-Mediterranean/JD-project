@@ -1,8 +1,9 @@
 const router = require('koa-router')()
-const { register } = require('../controller/register')
+const { register, login } = require('../controller/user')
 const { SuccessModel, ErrorModel } = require('../res-model/index');
 router.prefix('/api/user');
 
+// 注册
 router.post('/register', async (ctx, next) => {
   const { username, password } = ctx.request.body;
   try {
@@ -19,4 +20,17 @@ router.post('/register', async (ctx, next) => {
   }
 })
 
+// 登录
+router.post('/login', async (ctx, next) => {
+  const { username, password } = ctx.request.body;
+  const res = await login(username, password);
+  if (res) {
+    // 登录成功
+    ctx.session.userInfo = { username }   // 写这个，可以返回cookie
+    ctx.body = new SuccessModel();
+  } else {
+    // 登录失败
+    ctx.body = new ErrorModel(10002, '登录失败')
+  }
+})
 module.exports = router
