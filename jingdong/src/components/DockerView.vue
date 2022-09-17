@@ -36,11 +36,13 @@ export default {
     color: $content-fontcolor;
     padding: 0 .18rem;
     border-top: .01rem solid $search-color;
-
+    background-color: #fff;
     &__item {
         flex: 1;
         text-align: center;
         a {
+          display: block;
+          height: 0.4rem;
           color: $content-fontcolor;
         }
         .iconfont {

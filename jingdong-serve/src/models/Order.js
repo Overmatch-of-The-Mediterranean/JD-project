@@ -4,6 +4,7 @@
  */
 const mongoose = require('../db/db')
 const Schema = mongoose.Schema({
+  username: String,
   shopId: String,
   shopName: String,
   isCancel: {
@@ -35,6 +36,6 @@ const Schema = mongoose.Schema({
       orderSales: Number
     }
   ]
-});
+}, { timestamps: true });
 const Order = mongoose.model('order', Schema);
 module.exports = Order;

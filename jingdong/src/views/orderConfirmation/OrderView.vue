@@ -95,6 +95,7 @@ export default {
   setup() {
     const route = useRoute()
     const shopId = route.params.id
+    // console.log(shopId, 'hhhhhhhhhhhhhhhh')
     const { Caculations, displayCartList, shopName } = useCommonCartEffect(shopId)
     const { handleConfirmClick } = useMakeOrderEffect(shopId, shopName, displayCartList)
     const { handleSubmitClick, showSubmit, successShow, handleSuccessMask, handleCancleClick } = useShowMaskEffect()

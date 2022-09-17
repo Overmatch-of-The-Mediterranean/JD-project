@@ -11,6 +11,7 @@ const index = require('./routes/index')
 const users = require('./routes/users')
 const address = require('./routes/address')
 const shop = require('./routes/shop')
+const order = require('./routes/order')
 
 
 
@@ -57,6 +58,7 @@ app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(address.routes(), address.allowedMethods())
 app.use(shop.routes(), shop.allowedMethods())
+app.use(order.routes(), order.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

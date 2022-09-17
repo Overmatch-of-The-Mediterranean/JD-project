@@ -19,8 +19,8 @@
         </div>
       </div>
     </div>
-    <DockerView :currentIndex="2" />
   </div>
+  <DockerView :currentIndex="2" />
 </template>
 
 <script>
@@ -71,7 +71,7 @@ export default {
   top: 0;
   right: 0;
   left: 0;
-  bottom: 0;
+  bottom: .5rem;
   background-color: #f5f5f5;
 }
 .title {
