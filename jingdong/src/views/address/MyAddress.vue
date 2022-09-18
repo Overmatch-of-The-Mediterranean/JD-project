@@ -27,19 +27,19 @@ export default {
   name: 'myAddress',
   setup() {
     const addressList = ref([])
-    const getNearbyList = async () => {
+    const getaddressList = async () => {
       const result = await get('/api/user/address')
       if (result?.errno === 0 && result?.data?.length) {
         addressList.value = result.data
       }
     }
-    getNearbyList()
+    getaddressList()
     console.log(addressList, '111')
     const router = useRouter()
     const handleBackClick = () => {
       router.back()
     }
-    return { handleBackClick, addressList, getNearbyList }
+    return { handleBackClick, addressList }
   }
 }
 </script>
