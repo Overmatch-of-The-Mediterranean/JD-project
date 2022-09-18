@@ -2,7 +2,7 @@
   <div class="wrapper">
     <img class="wrapper__img" src="http://www.dell-lee.com/imgs/vue3/user.png" alt="">
     <div class="wrapper__input">
-      <input type="text" class="wrapper__input__content" placeholder="请输入手机号" v-model="userName">
+      <input type="text" class="wrapper__input__content" placeholder="请输入手机号" v-model="username">
     </div>
     <div class="wrapper__input">
       <input type="password" class="wrapper__input__content" placeholder="请输入密码" v-model="password">
@@ -26,15 +26,15 @@ import ToastView, { useToastEffect } from '../../components/ToastView.vue'
 // 实现注册的逻辑
 const useRegisterEffect = (show) => {
   const router = useRouter()
-  const data = reactive({ userName: '', password: '', ensurment: '' })
+  const data = reactive({ username: '', password: '', ensurment: '' })
   const handleIsRegister = async () => {
     try {
       const result = await post('/api/user/register', {
-        userName: data.userName,
+        username: data.username,
         password: data.password,
         ensurment: data.ensurment
       })
-      if (result?.error === 0) {
+      if (result?.errno === 0) {
         router.push({ name: 'Login' })
       } else {
         show('注册失败')
@@ -43,8 +43,8 @@ const useRegisterEffect = (show) => {
       show('请求失败')
     }
   }
-  const { userName, password, ensurment } = toRefs(data)
-  return { handleIsRegister, userName, password, ensurment }
+  const { username, password, ensurment } = toRefs(data)
+  return { handleIsRegister, username, password, ensurment }
 }
 
 export default {
@@ -52,9 +52,9 @@ export default {
   components: { ToastView },
   setup() {
     const { show, toastMessage, showToast } = useToastEffect()
-    const { handleIsRegister, userName, password, ensurment } = useRegisterEffect(show)
+    const { handleIsRegister, username, password, ensurment } = useRegisterEffect(show)
 
-    return { show, toastMessage, showToast, handleIsRegister, userName, password, ensurment }
+    return { show, toastMessage, showToast, handleIsRegister, username, password, ensurment }
   }
 }
 </script>

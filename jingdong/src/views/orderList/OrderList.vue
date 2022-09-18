@@ -9,7 +9,7 @@
         </div>
         <div class="order__content">
           <div class="order__content__imgs">
-            <img class="order__content__img" :src="innerItem.product.img" v-for="(innerItem,innerIndex) in item.products"
+            <img class="order__content__img" :src="innerItem.product.imgUrl" v-for="(innerItem,innerIndex) in item.products"
               :key="innerIndex">
           </div>
           <div class="order__content__info">
@@ -30,8 +30,8 @@ import DockerView from '../../components/DockerView.vue'
 const useOrderListEffect = () => {
   const OrderList = reactive({ list: [] })
   const getNearbyList = async () => {
-    const result = await get('/api/order')
-    if (result?.error === 0 && result?.data?.length) {
+    const result = await get('/api/order/list')
+    if (result?.errno === 0 && result?.data?.length) {
       const data = result.data
       data.forEach((order) => {
         const products = order.products || []

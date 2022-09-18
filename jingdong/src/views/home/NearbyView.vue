@@ -15,10 +15,11 @@ const useNearbyList = () => {
   const NearbyList = ref([])
   const getNearbyList = async () => {
     const result = await get('/api/shop/hot-list')
-    if (result?.error === 0 && result?.data?.length) {
+    if (result?.errno === 0 && result?.data?.length) {
       NearbyList.value = result.data
     }
   }
+  console.log(NearbyList)
   return { NearbyList, getNearbyList }
 }
 export default {

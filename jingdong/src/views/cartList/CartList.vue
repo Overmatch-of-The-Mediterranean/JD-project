@@ -3,7 +3,7 @@
     <div class="header">我的全部购物车</div>
     <div class="orders">
       <template v-for="(item, index) in cartList" :key="index">
-        <div class="order" v-if="counts[index-1]>0">
+        <div class="order">
           <h4 class="order__title">{{item.shopName}}</h4>
           <template v-for="inneritem in item.productList" :key="inneritem._id">
             <div class="order__products"  v-if="inneritem.count>0">
@@ -36,7 +36,7 @@ export default {
   setup() {
     // 购物车的所有信息都在这里面
     const { cartList } = useCommonCartEffect()
-
+    console.log(cartList)
     // 获取所有店铺的id
     const ids = []
 
@@ -50,14 +50,23 @@ export default {
       ids.push(i)
     }
     let j
-    for (j in ids) {
-      const { Caculations } = useCommonCartEffect(j - 0 + 1)
+    for (j = 0; j < ids.length; j++) {
+      const { Caculations } = useCommonCartEffect(ids[j])
       calculationList.push(Caculations)
     }
+    console.log(calculationList)
+    console.log(calculationList.length)
+    // for (j in ids) {
+    //   console.log(j)
+    //   const { Caculations } = useCommonCartEffect(j - 0 + 1)
+    //   calculationList.push(Caculations)
+    // }
     let k
     for (k = 0; k < calculationList.length; k++) {
       counts.push(calculationList[k].value.total)
     }
+    console.log(ids)
+    // console.log(calculationList)
     return { cartList, calculationList, counts }
   }
 }

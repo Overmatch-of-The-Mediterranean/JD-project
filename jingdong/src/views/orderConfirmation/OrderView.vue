@@ -52,8 +52,9 @@ const useMakeOrderEffect = (shopId, shopName, displayCartList) => {
         isCanceled,
         products
       })
-      console.log(result)
-      if (result?.error === 0) {
+      console.log(result, 66666)
+      console.log(result.shopId, 1111)
+      if (result?.errno === 0) {
         localStorage.isLogin = true
         store.commit('clearCartList', shopId)
         // router.push({ name: 'orderList' })

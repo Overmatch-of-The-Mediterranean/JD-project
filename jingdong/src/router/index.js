@@ -12,6 +12,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "cartList" */ '../views/cartList/CartList')
   },
   {
+    path: '/my',
+    name: 'my',
+    component: () => import(/* webpackChunkName: "my" */ '../views/my/myView')
+  },
+  {
+    path: '/myAddress',
+    name: 'myAddress',
+    component: () => import(/* webpackChunkName: "myAddress" */ '../views/address/MyAddress')
+  },
+  {
     // 跳转到订单页面要携带id
     path: '/orderConfirmation/:id',
     name: 'orderConfirmation',

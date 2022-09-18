@@ -2,7 +2,7 @@
   <div class="wrapper">
     <img class="wrapper__img" src="http://www.dell-lee.com/imgs/vue3/user.png" alt="">
     <div class="wrapper__input">
-      <input type="text" class="wrapper__input__content" placeholder="请输入用户名" v-model="userName">
+      <input type="text" class="wrapper__input__content" placeholder="请输入用户名" v-model="username">
     </div>
     <div class="wrapper__input">
       <input type="password" class="wrapper__input__content" placeholder="请输入密码" v-model="password">
@@ -23,17 +23,17 @@ import ToastView, { useToastEffect } from '../../components/ToastView.vue'
 // 实现登录的逻辑
 const useLoginEffect = (show) => {
   const router = useRouter()
-  const data = reactive({ userName: '', password: '' })
+  const data = reactive({ username: '', password: '' })
   const handleIsLogin = async () => {
     try {
       const result = await post('/api/user/login', {
-        userName: data.userName,
+        username: data.username,
         password: data.password
       })
-      if (data.userName === '' || data.password === '') {
+      if (data.username === '' || data.password === '') {
         return show('请输入用户名和密码')
       }
-      if (result?.error === 0) {
+      if (result?.errno === 0) {
         localStorage.isLogin = true
         router.push({ name: 'home' })
       } else {
@@ -43,8 +43,8 @@ const useLoginEffect = (show) => {
       show('请求失败')
     }
   }
-  const { userName, password } = toRefs(data)
-  return { handleIsLogin, userName, password }
+  const { username, password } = toRefs(data)
+  return { handleIsLogin, username, password }
 }
 
 export default {
@@ -53,8 +53,8 @@ export default {
   setup () {
     // setup职责是，告诉你代码执行的流程
     const { show, toastMessage, showToast } = useToastEffect()
-    const { handleIsLogin, userName, password } = useLoginEffect(show)
-    return { handleIsLogin, show, toastMessage, showToast, userName, password }
+    const { handleIsLogin, username, password } = useLoginEffect(show)
+    return { handleIsLogin, show, toastMessage, showToast, username, password }
   }
 
 }

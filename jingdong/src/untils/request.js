@@ -1,8 +1,8 @@
 import axios from 'axios'
 const instance = axios.create({
-  baseURL: 'https://www.fastmock.site/mock/e85283acd24926300e4c1ced32faffa5/weixin',
-  // baseURL: 'http://localhost:3000',
-  // withCredentials: true,
+  // baseURL: 'https://www.fastmock.site/mock/e85283acd24926300e4c1ced32faffa5/weixin',
+  baseURL: 'http://localhost:3000',
+  withCredentials: true,
   timeout: 10000
 })
 export const get = (url, params = {}) => {
