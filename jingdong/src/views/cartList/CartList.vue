@@ -3,7 +3,7 @@
     <div class="header">我的全部购物车</div>
     <div class="orders">
       <template v-for="(item, index) in cartList" :key="index">
-        <div class="order">
+        <div class="order" v-if="counts[index= index=== '631d9b697b9a3de66b38f357' ? 0 : 1]">
           <h4 class="order__title">{{item.shopName}}</h4>
           <template v-for="inneritem in item.productList" :key="inneritem._id">
             <div class="order__products"  v-if="inneritem.count>0">
@@ -19,7 +19,7 @@
             </div>
             </div>
           </template>
-          <div class="order__open iconfont">共计{{counts[index-1]}}件/1.4kg</div>
+          <div class="order__open iconfont">共计{{counts[index]}}件/1.4kg</div>
         </div>
       </template>
     </div>
@@ -65,8 +65,9 @@ export default {
     for (k = 0; k < calculationList.length; k++) {
       counts.push(calculationList[k].value.total)
     }
+    console.log(counts, '我是count1111')
     console.log(ids)
-    // console.log(calculationList)
+    console.log(cartList, 'ccccc')
     return { cartList, calculationList, counts }
   }
 }

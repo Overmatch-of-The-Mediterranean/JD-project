@@ -14,11 +14,11 @@ const Product = require('../../models/Product');
     isCancel: false,    // 是否取消订单
     products: [{   //复制关系
       id: '631da34de4a3ef8ed3f51d49',
-      count: 5
+      orderSales: 5
     },
     {
       id: '631da34de4a3ef8ed3f51d4c',
-      count: 2
+      orderSales: 2
     }]
   }
 
@@ -44,7 +44,7 @@ const Product = require('../../models/Product');
     }
     return {
       product: p,
-      orderSales: filterProducts[0].count
+      orderSales: filterProducts[0].orderSales
     }
   });
   // console.log(pIds);

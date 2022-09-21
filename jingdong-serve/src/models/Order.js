@@ -33,7 +33,7 @@ const Schema = mongoose.Schema({
         oldPrice: Number,
         tabs: [String]
       },
-      orderSales: Number
+      count: Number
     }
   ]
 }, { timestamps: true });

@@ -2,22 +2,24 @@
   <div class="wrapper">
     <div class="title">我的订单</div>
     <div class="orders">
-      <div class="order" v-for="(item,index) in list" :key="index">
-        <div class="order__top">
-          <div class="order__top__title">{{ item.shopName }}</div>
-          <span class="order__top__status">{{ item.isCanceled ? '待支付':'已取消' }}</span>
-        </div>
-        <div class="order__content">
-          <div class="order__content__imgs">
-            <img class="order__content__img" :src="innerItem.product.imgUrl" v-for="(innerItem,innerIndex) in item.products"
-              :key="innerIndex">
+      <template v-for="(item,index) in list" :key="index">
+        <div class="order" v-if="item.totalCount">
+          <div class="order__top">
+            <div class="order__top__title">{{ item.shopName }}</div>
+            <span class="order__top__status">{{ item.isCanceled ? '已取消':'已支付' }}</span>
           </div>
-          <div class="order__content__info">
-            <div class="order__content__info__price">¥{{ item.totalPrice }}</div>
-            <div class="order__content__info__count">共{{ item.totalCount }}件</div>
+          <div class="order__content">
+            <div class="order__content__imgs">
+              <img class="order__content__img" :src="innerItem.product.imgUrl" v-for="(innerItem,innerIndex) in item.products"
+                :key="innerIndex">
+            </div>
+            <div class="order__content__info">
+              <div class="order__content__info__price">¥{{ item.totalPrice }}</div>
+              <div class="order__content__info__count">共{{ item.totalCount }}件</div>
+            </div>
           </div>
         </div>
-      </div>
+      </template>
     </div>
   </div>
   <DockerView :currentIndex="2" />
@@ -31,15 +33,18 @@ const useOrderListEffect = () => {
   const OrderList = reactive({ list: [] })
   const getNearbyList = async () => {
     const result = await get('/api/order/list')
+    console.log(result)
     if (result?.errno === 0 && result?.data?.length) {
+      console.log(result, 1111111)
       const data = result.data
       data.forEach((order) => {
         const products = order.products || []
+        console.log(products, 2222222222)
         let totalPrice = 0
         let totalCount = 0
         products.forEach((productItem) => {
-          totalCount += (productItem?.orderSales || 0)
-          totalPrice += ((productItem?.product?.price * productItem?.orderSales) || 0)
+          totalCount += (productItem?.count || 0)
+          totalPrice += ((productItem?.product?.price * productItem?.count) || 0)
         })
         order.totalPrice = totalPrice
         order.totalCount = totalCount

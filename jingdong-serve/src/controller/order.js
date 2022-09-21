@@ -33,13 +33,13 @@ async function createOrder(username, data) {
   // 获取商品销售额并拼接
   const productListWithSales = productList.map(p => {
     const id = p._id.toString();
-    const filterProducts = products.map(item => item.id === id);
+    const filterProducts = products.filter(item => item.id === id);
     if (filterProducts.length === 0) {
       throw Error('未找到匹配的销售数据');
     }
     return {
       product: p,
-      orderSales: filterProducts[0].count
+      count: filterProducts[0].count
     }
   })
 

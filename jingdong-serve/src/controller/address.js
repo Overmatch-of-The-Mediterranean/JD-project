@@ -7,11 +7,14 @@ const Address = require('../models/Address');
  * @param {Object} data 地址详情信息
  */
 async function addressCreate(username, data) {
-  const newAddress = await Address.create({
-    username,
-    ...data
-  })
-  return newAddress
+  const { city, department, houseNumber, name, phone } = data
+  if (city !== '' && department !== '' && houseNumber !== '' && name !== '' && phone !== '') {
+    const newAddress = await Address.create({
+      username,
+      ...data
+    })
+    return newAddress
+  }
 }
 
 

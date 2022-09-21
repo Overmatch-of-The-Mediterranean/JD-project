@@ -3,7 +3,7 @@
     <div class="header">
       <div class="header__back iconfont" @click="handleBackClick">&#xe8ef;</div>
       <div class="header__title">管理收获地址</div>
-      <div class="header__new">新建</div>
+      <div class="header__new" @click="handleCreateClick">新建</div>
     </div>
     <div class="myaddress">我的收货地址</div>
     <div class="address__list">
@@ -39,7 +39,11 @@ export default {
     const handleBackClick = () => {
       router.back()
     }
-    return { handleBackClick, addressList }
+
+    const handleCreateClick = () => {
+      router.push({ name: 'createAddress' })
+    }
+    return { handleBackClick, addressList, handleCreateClick }
   }
 }
 </script>

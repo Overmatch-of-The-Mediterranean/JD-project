@@ -46,7 +46,7 @@ const useMakeOrderEffect = (shopId, shopName, displayCartList) => {
     // console.log(products)
     try {
       const result = await post('/api/order', {
-        addressId: 1,
+        addressId: '632433ec628e30cf9e8eeddd',
         shopId,
         shopName: shopName.value,
         isCanceled,
